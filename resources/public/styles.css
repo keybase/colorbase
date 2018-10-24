@@ -1,0 +1,9 @@
+body {
+    background-color: OldLace;
+    padding-left: 20px;
+    color: DarkSlateGrey;
+    font-family: sans-serif;
+}
+
+a { color: FireBrick; }
+a:hover { color: Tomato; }
