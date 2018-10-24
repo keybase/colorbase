@@ -3,4 +3,4 @@
 
 (defn -main [port]
   (require '[clojure-keybase-proofs.handler :as handler])
-  ((resolve 'handler/run-server) port))
+  ((resolve 'handler/run-server) (read-string port)))
