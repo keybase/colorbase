@@ -1,0 +1,18 @@
+{
+	"version": 6,
+	"domain": "colorbase.org",
+	"display_name": "colorbase",
+	"description": "Colors for everyone!",
+	"brand_color": "#6841f4",
+	"username": {
+	  "re": "^[a-f0-9]{6}$",
+	  "min": 6,
+	  "max": 6
+	},
+	"profile_url": "http://localhost:8080/color/%{username}",
+	"prefill_url": "http://localhost:8080/create-keybase-proof?keybase-username=%{kb_username}&username=%{username}&sig-hash=%{sig_hash}&kb-ua=%{kb_ua}",
+	"check_url": "http://localhost:8080/api/keybase-proofs?username=%{username}",
+	"check_path": ["signatures"],
+	"avatar_path": ["avatar"],
+	"contact": ["6841f4@colorbase.org"]
+}
