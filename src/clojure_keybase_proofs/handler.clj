@@ -18,9 +18,9 @@
 ; parameterize over db?
 (defroutes app-routes
   (GET "/" [] (views/homepage))
-  (GET "/make-keybase-proof" [kb_username sig_hash]
-       (let [url "/api/prove-keybase-identity username=<USERNAME> keybase-username=%s sig-hash=%s"]
-         (response (format (str "$ http POST " url) kb_username sig_hash))))
+  (GET "/make-keybase-proof" [keybase-username sig-hash]
+       (let [url "https://colorbase.modalduality.org/api/prove-keybase-identity username=<USERNAME> keybase-username=%s sig-hash=%s"]
+         (response (format (str "$ http POST " url) keybase-username sig-hash))))
   (GET "/api/user" [username]
        (if-let [user (api/user db username)]
          (response user)))

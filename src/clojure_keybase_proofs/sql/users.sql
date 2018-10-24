@@ -26,12 +26,17 @@ values (:username)
 insert or ignore into keybase_users (username, keybase_username, sig_hash)
 values (:username, :keybase-username, :sig-hash)
 
+-- :name unset-keybase-username :! :n
+delete from keybase_users
+where username=:username
+and keybase_username=:keybase-username
+
 -- :name get-user-by-username :? :1
 select * from users
 where username=:username
 
 -- :name get-keybase-users-by-username :? :*
-select keybase_username as kb_username, sig_hash from keybase_users
+select keybase_username, sig_hash from keybase_users
 inner join users
 using (username)
 where username=:username
