@@ -1,10 +1,9 @@
 {
-  "schema_version": 1,
-  "config_version": 1,
+  "version": 1,
   "domain": "colorbase.modalduality.org",
   "display_name": "Colorbase",
   "username": {
-    "re": "^[A-F0-9]{6}$",
+    "re": "^[a-fA-F0-9]{6}$",
     "min": 6,
     "max": 6
   },
@@ -15,7 +14,7 @@
     "fa_icon": null
   },
   "description": "Colors for everyone!",
-  "prefill_url": "https://colorbase.modalduality.com/make-keybase-proof?kb_username=%{kb_username}&sig_hash=%{sig_hash}",
+  "prefill_url": "https://colorbase.modalduality.com/make-keybase-proof?keybase-username=%{kb_username}&sig-hash=%{sig_hash}",
   "check_url": "https://colorbase.modalduality.org/api/keybase-proofs?username=%{username}",
   "check_path": ["identities", "keybase-proofs"],
   "contact": ["6841F4@colorbase.modalduality.org"]
