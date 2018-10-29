@@ -12,4 +12,4 @@
   (run (wrap-reload handler/http-handler) port))
 
 (defn -main [port-str]
-  (run handler/https-handler (read-string port-str)))
+  (run handler/http-handler (read-string port-str)))

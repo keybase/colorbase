@@ -56,4 +56,3 @@
       (middleware/wrap-sessioned-jwt-authentication (:jwt-secret secrets))))
 
 (def http-handler (wrap-defaults common-handler site-defaults))
-(def https-handler (wrap-defaults common-handler secure-site-defaults))

@@ -1,3 +1,3 @@
 (ns colorbase.config)
 
-(def config (read-string (slurp "resources/config.edn")))
+(def config (read-string (slurp "config.edn")))
