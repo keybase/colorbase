@@ -7,15 +7,15 @@
     "min": 6,
     "max": 6
   },
-  "profile_url": "https://colorbase.modalduality.org/u/%{username}",
+  "profile_url": "https://colorbase.modalduality.org/color/%{username}",
   "brand_color": "#6841F4",
   "logo": {
     "url": null,
     "fa_icon": null
   },
   "description": "Colors for everyone!",
-  "prefill_url": "https://colorbase.modalduality.com/make-keybase-proof?keybase-username=%{kb_username}&sig-hash=%{sig_hash}",
+  "prefill_url": "https://colorbase.modalduality.org/config-keybase-proof?keybase-username=%{kb_username}&sig-hash=%{sig_hash}",
   "check_url": "https://colorbase.modalduality.org/api/keybase-proofs?username=%{username}",
-  "check_path": ["identities", "keybase-proofs"],
+  "check_path": [],
   "contact": ["6841F4@colorbase.modalduality.org"]
 }

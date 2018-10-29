@@ -1,1 +1,7 @@
-{:database-path "database.db"}
+; in resources or what?
+{:database-path "resources/database.db"
+ :secrets-path "resources/secrets.edn.saltpack"
+ :secure-cookies false ; requires https
+ :domain "127.0.0.1:8000" ; can do automatically?
+ :doman-for-keybase "colorbase.modalduality.org"
+ }

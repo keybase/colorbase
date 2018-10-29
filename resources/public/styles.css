@@ -1,25 +1,30 @@
 body {
     background-color: Snow;
-    padding-top: 20px;
+    padding-top: 40px;
     padding-left: 40px;
     color: DarkSlateGrey;
     font-family: sans-serif;
+    font-size: 13px;
     max-width: 800px;
 }
 
-a { color: Tomato; }
-a:hover { color: Firebrick; }
+h1 {
+    margin-top: 0;
+    color: Tomato;
+}
+
+h1 small {
+    color: DarkSlateGray;
+}
 
 form {
     display: inline-block;
-    padding-left: 20px;
-    padding-bottom: 20px;
 }
 
 fieldset {
+    border: 1px solid DarkSlateGrey;
     padding-left: 20px;
     padding-right: 20px;
-    border: 1px solid DarkSlateGrey;
 }
 
 legend {
@@ -28,22 +33,33 @@ legend {
 }
 
 input {
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin: 5px;
+}
+
+.form-box {
+    display: inline-block;
+}
+
+.logout input {
+    margin: 20px;
+}
+
+.user-gallery {
+    padding-top: 20px;
 }
 
 .user-box {
     display: inline-block;
-    padding: 20px;
-    margin: 5px;
+    padding: 30px;
+    margin-right: 20px;
+    margin-bottom: 20px;
 }
 
 .has-keybase-proofs {
-    outline: 1px DarkSlateGrey dashed;
-    outline-offset: 1px;
+    box-shadow: 3px 3px DarkSlateGrey;
 }
 
-.keybase-user {
+.miniform-box {
     display: inline-block;
     background: Snow;
     padding-top: 4px;
@@ -51,4 +67,9 @@ input {
     padding-left: 8px;
     padding-right: 8px;
     margin: 12px;
+}
+
+.logout-box {
+    display: inline-block;
+    padding: 24px;
 }
