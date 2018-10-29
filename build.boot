@@ -9,7 +9,6 @@
                   [com.layerware/hugsql "0.4.9"]
                   [org.xerial/sqlite-jdbc "3.25.2"]
                   [compojure "1.6.1"]
-                  ; TODO rm dependency with buddy crore!!
                   [crypto-random "1.2.0"]
                   [buddy/buddy-auth "2.1.0"]
                   [buddy/buddy-hashers "1.3.0"]

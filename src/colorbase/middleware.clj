@@ -1,7 +1,6 @@
 (ns colorbase.middleware
   (:require
    [colorbase.api :as api]
-   [colorbase.config :refer [config]]
    [buddy.auth.backends]
    [buddy.auth.middleware]
    [ring.util.response :refer [response status redirect]]))
