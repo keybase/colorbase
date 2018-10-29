@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "domain": "colorbase.modalduality.org",
   "display_name": "Colorbase",
   "username": {
@@ -9,13 +9,10 @@
   },
   "profile_url": "https://colorbase.modalduality.org/color/%{username}",
   "brand_color": "#6841F4",
-  "logo": {
-    "url": null,
-    "fa_icon": null
-  },
+  "logo": null,
   "description": "Colors for everyone!",
-  "prefill_url": "https://colorbase.modalduality.org/config-keybase-proof?keybase-username=%{kb_username}&sig-hash=%{sig_hash}",
+  "prefill_url": "https://colorbase.modalduality.org/create-keybase-proof?keybase-username=%{kb_username}&sig-hash=%{sig_hash}",
   "check_url": "https://colorbase.modalduality.org/api/keybase-proofs?username=%{username}",
   "check_path": [],
-  "contact": ["6841F4@colorbase.modalduality.org"]
+  "contact": ["6841f4@colorbase.modalduality.org"]
 }
