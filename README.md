@@ -2,13 +2,7 @@
 
 This is an example Clojure application that integrates with [Keybase proofs](http://keybase.io/docs/proof_integration_guide), allowing users to prove their identity on Keybase.
 
-Ise-proof [is-self {:keys [keybase-username sig-hash]}]
-  (miniform-box
-    (get-miniform (make-keybase-url keybase-username sig-hash)
-                  (str "keybase/" keybase-username))
-    (when is-self
-      (post-miniform "/api/delete-keybase-proof" "Delete!" {:keybase-username keybase-username}))))
-t uses the `clj--proofs` [library](https://github.com/keybase/clj-keybase-proofs).
+It uses the `clj-keybase-proofs` [library](https://github.com/keybase/clj-keybase-proofs).
 
 You can run it locally by cloning the repository and running
 
