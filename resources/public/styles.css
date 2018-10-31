@@ -67,6 +67,7 @@ input {
     padding-left: 8px;
     padding-right: 8px;
     margin: 12px;
+    text-align: center;
 }
 
 .logout-box {

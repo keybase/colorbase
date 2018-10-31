@@ -13,8 +13,8 @@
                   [buddy/buddy-auth "2.1.0"]
                   [buddy/buddy-hashers "1.3.0"]
                   [hiccup "1.0.5"]
-                  [clj-keybase-proofs "0.1.0"]]
-  :checkouts '[[clj-keybase-proofs "0.1.0"]])
+                  [clj-keybase-proofs "0.1.0-SNAPSHOT"]]
+  :checkouts '[[clj-keybase-proofs "0.1.0-SNAPSHOT"]])
 
 (task-options!
   pom  {:project 'colorbase

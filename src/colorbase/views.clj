@@ -1,5 +1,6 @@
 (ns colorbase.views
   (:require [colorbase.util :as util]
+            [colorbase.config :refer [config]]
             [org.keybase.proofs :as keybase-proofs]
             [ring.util.anti-forgery :refer [anti-forgery-field]]
             [hiccup.page :as page]
@@ -65,18 +66,21 @@
       (login-form))
     [:div.user-gallery (map user-box users)]))
 
-(defn render-keybase-proof [is-self {:keys [keybase-username sig-hash]}]
+(defn render-keybase-proof [username is-self {:keys [keybase-username sig-hash]}]
   (miniform-box
     (get-miniform (keybase-proofs/make-profile-link keybase-username sig-hash)
-                  (str "keybase/" keybase-username))
+                  (str "@" keybase-username))
     (when is-self
-      (post-miniform "/api/delete-keybase-proof" "Delete!" {:keybase-username keybase-username}))))
+      (post-miniform "/api/delete-keybase-proof" "Delete!" {:keybase-username keybase-username}))
+    [:br]
+    [:a {:href (keybase-proofs/make-profile-link keybase-username sig-hash)}
+     [:img {:src (keybase-proofs/make-badge-link
+                   (:domain-for-keybase config) username keybase-username sig-hash)}]]))
 
 (defn render-profile [is-self {:keys [username keybase-proofs]}]
   (page/html5
     (make-page-head username)
-    (miniform-box (get-miniform "/" "Home!"))
-    (map (partial render-keybase-proof is-self) keybase-proofs)))
+    (map (partial render-keybase-proof username is-self) keybase-proofs)))
 
 (defn render-create-keybase-proof [current-username keybase-username sig-hash]
   (page/html5
