@@ -70,14 +70,21 @@ After this call, you can delete the proof or mark it as deleted in your
 database. Do not return it in your `/api/keybase-proofs/` endpoint anymore.
 
 ### Display Keybase proof on user's profile page
-Finally, a user's profile links to their Keybase profile. This function is in `views.clj`.
+Finally, a user's profile links to their Keybase profile and displays a status
+badge. This function is in `views.clj`. Note that the status badge is optional,
+and sends a request to the Keybase servers to get the current proof status and
+render it in an SVG.
 ```clojure
-(defn render-keybase-proof [is-self {:keys [keybase-username sig-hash]}]
+(defn render-keybase-proof [username is-self {:keys [keybase-username sig-hash]}]
   (miniform-box
     (get-miniform (keybase-proofs/make-profile-link keybase-username sig-hash)
-                  (str "keybase/" keybase-username))
+                  (str "@" keybase-username))
     (when is-self
-      (post-miniform "/api/delete-keybase-proof" "Delete!" {:keybase-username keybase-username}))))
+      (post-miniform "/api/delete-keybase-proof" "delete!" {:keybase-username keybase-username}))
+    [:br]
+    [:a {:href (keybase-proofs/make-profile-link keybase-username sig-hash)}
+     [:img {:src (keybase-proofs/make-badge-link
+                   (:domain-for-keybase config) username keybase-username sig-hash)}]]))
 ```
 
 ### Sample database schema
