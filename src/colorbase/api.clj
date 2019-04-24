@@ -53,9 +53,10 @@
 (defn get-users-with-live-keybase-proof-count []
   ((:get-users-with-live-keybase-proof-count cmd)))
 
-(defn attempt-to-enliven-proof [domain username keybase-username sig-hash]
-  (when (keybase-proofs/proof-live? domain username keybase-username sig-hash)
-    ((:enliven-keybase-proof cmd) {:username username :keybase-username keybase-username})))
+(defn update-proof-liveness [domain username keybase-username sig-hash]
+  (if (keybase-proofs/proof-live? domain username keybase-username sig-hash)
+    ((:enliven-keybase-proof cmd) {:username username :keybase-username keybase-username})
+    ((:kill-keybase-proof cmd) {:username username :keybase-username keybase-username})))
 
 (defn create-keybase-proof [domain username keybase-username sig-hash]
   ; Check if the proof is valid. If not, error.
@@ -68,16 +69,12 @@
                                 :is-live false})
   ; Kick off a background task to enliven the proof when it's live on Keybase's side
   (future (util/execute-until-ok
-            (partial attempt-to-enliven-proof domain username keybase-username sig-hash)
+            (partial update-proof-liveness domain username keybase-username sig-hash)
             some? 10 1000)))
+
+(defn update-keybase-proofs [domain username]
+  (doall (pmap #(update-proof-liveness domain username (:keybase-username %1) (:sig-hash %1))
+               ((:get-all-keybase-proofs cmd) {:username username}))))
 
 (defn delete-keybase-proof [username keybase-username]
   ((:kill-keybase-proof cmd) {:username username :keybase-username keybase-username}))
-
-(defn kill-keybase-proof-if-needed [domain username keybase-username sig-hash]
-  (when-not (keybase-proofs/proof-live? domain username keybase-username sig-hash)
-    ((:kill-keybase-proof cmd) {:username username :keybase-username keybase-username})))
-
-(defn update-keybase-proofs [domain username]
-  (doall (pmap #(kill-keybase-proof-if-needed domain username (:keybase-username %1) (:sig-hash %1))
-               ((:get-live-keybase-proofs cmd) {:username username}))))
