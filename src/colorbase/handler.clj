@@ -51,7 +51,6 @@
         (api/delete-keybase-proof (:current-username request) keybase-username)
         (redirect-in-web request "/color")))
 
-
 (def common-handler
   (-> (routes public-routes
               (middleware/wrap-require-authentication authenticated-routes)

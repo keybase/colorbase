@@ -1,18 +1,18 @@
 {
-  "version": 3,
-  "domain": "colorbase.modalduality.org",
-  "display_name": "Colorbase",
-  "username": {
-    "re": "^[a-f0-9]{6}$",
-    "min": 6,
-    "max": 6
-  },
-  "profile_url": "https://colorbase.modalduality.org/color/%{username}",
-  "brand_color": "#6841F4",
-  "logo": null,
-  "description": "Colors for everyone!",
-  "prefill_url": "https://colorbase.modalduality.org/create-keybase-proof?keybase-username=%{kb_username}&sig-hash=%{sig_hash}",
-  "check_url": "https://colorbase.modalduality.org/api/keybase-proofs?username=%{username}",
-  "check_path": [],
-  "contact": ["6841f4@colorbase.modalduality.org"]
+	"version": 6,
+	"domain": "colorbase.org",
+	"display_name": "colorbase",
+	"description": "Colors for everyone!",
+	"brand_color": "#6841f4",
+	"username": {
+	  "re": "^[a-f0-9]{6}$",
+	  "min": 6,
+	  "max": 6
+	},
+	"profile_url": "http://localhost:8080/color/%{username}",
+	"prefill_url": "http://localhost:8080/create-keybase-proof?keybase-username=%{kb_username}&username=%{username}&sig-hash=%{sig_hash}&kb-ua=%{kb_ua}",
+	"check_url": "http://localhost:8080/api/keybase-proofs?username=%{username}",
+	"check_path": ["signatures"],
+	"avatar_path": ["avatar"],
+	"contact": ["6841f4@colorbase.org"]
 }

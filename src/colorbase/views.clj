@@ -25,7 +25,7 @@
   ([] (make-page-head nil))
   ([username]
    [:head
-    [:title (if username (util/colorify username) "Colorbase")]
+    [:title (if username (util/colorify username) "colorbase")]
     (page/include-css "/styles.css")
     (when username
       [:style (format "body { background-color: #%s; }" username)])]))
