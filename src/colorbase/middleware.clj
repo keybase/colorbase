@@ -41,7 +41,7 @@
         (handler (assoc request
                         :current-username username
                         :current-user (api/get-user username)))
-        (unset-auth-cookie (redirect "/" :see-other) 401))
+        (unset-auth-cookie (redirect "/" :see-other)))
       (handler request))))
 
 (defn wrap-require-authentication [handler]

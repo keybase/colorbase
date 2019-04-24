@@ -41,7 +41,7 @@ On an error, you may want to let your users know that their Keybase proof is inv
 ```clojure
 (defn create-keybase-proof [domain username keybase-username sig-hash]
   ; Check if the proof is valid. If not, error.
-  (when-not (keybase-proofs/valid-proof? domain username keybase-username sig-hash)
+  (when-not (keybase-proofs/proof-valid? domain username keybase-username sig-hash)
     (throw (ex-info "401 Unauthorized. Invalid Keybase proof." {:code 403})))
   ; Add the proof to your database.
   ((:create-keybase-proof cmd) {:username username

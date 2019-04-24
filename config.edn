@@ -1,4 +1,4 @@
 {:database-path "database.db"
  :secrets-path "secrets.edn.saltpack"
  :secure-cookies false
- :domain-for-keybase "colorbase.modalduality.org"}
+ :domain-for-keybase "colorbase.org"}

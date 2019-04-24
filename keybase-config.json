@@ -1,9 +1,9 @@
 {
-  "version": 2,
+  "version": 3,
   "domain": "colorbase.modalduality.org",
   "display_name": "Colorbase",
   "username": {
-    "re": "^[a-fA-F0-9]{6}$",
+    "re": "^[a-f0-9]{6}$",
     "min": 6,
     "max": 6
   },

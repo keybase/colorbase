@@ -8,6 +8,7 @@
    [colorbase.config :refer [config]]
    [compojure.core :refer :all]
    [compojure.route :as route]
+   [io.keybase.proofs :as keybase-proofs]
    [ring.middleware.defaults :refer [wrap-defaults site-defaults secure-site-defaults]]
    [ring.util.request :refer [content-type]]
    [ring.util.response :refer [response status redirect]]
@@ -34,16 +35,22 @@
 
 (defroutes authenticated-routes
   (POST "/logout" request (middleware/unset-auth-cookie (redirect "/" :see-other)))
-  (GET "/create-keybase-proof" [keybase-username sig-hash :as request]
-       (views/render-create-keybase-proof (:current-username request) keybase-username sig-hash))
+  (GET "/create-keybase-proof" [keybase-username sig-hash kb-ua username :as request]
+       (if (= username (:current-username request))
+         (views/render-create-keybase-proof (:current-username request) keybase-username sig-hash kb-ua)
+         (throw (ex-info (format "401 Unauthorized. Signed in as %s, but tried to make a Keybase proof for %s"
+                                 (:current-username request) username) {:code 401}))))
   (GET "/color" request (redirect (str "/color/" (:current-username request)) :see-other))
-  (POST "/api/create-keybase-proof" [keybase-username sig-hash :as request]
+  (POST "/api/create-keybase-proof" [keybase-username sig-hash kb-ua username :as request]
         (api/create-keybase-proof
           (:domain-for-keybase config) (:current-username request) keybase-username sig-hash)
-        (redirect-in-web request "/color"))
+        (redirect-in-web request (keybase-proofs/make-proof-success-redirect-link
+                                   (:domain-for-keybase config) keybase-username
+                                   (:current-username request) sig-hash kb-ua)))
   (POST "/api/delete-keybase-proof" [keybase-username :as request]
         (api/delete-keybase-proof (:current-username request) keybase-username)
         (redirect-in-web request "/color")))
+
 
 (def common-handler
   (-> (routes public-routes

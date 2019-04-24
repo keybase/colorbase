@@ -38,3 +38,8 @@
 
 (defn random-color []
   (str "#" (csprng/hex 3)))
+
+(defn execute-until-ok [f ok? max-tries delay-ms]
+  (when (and (pos? max-tries) ((complement ok?) (f))) ; short-circuiting!
+    (Thread/sleep delay-ms)
+    (execute-until-ok f ok? (dec max-tries) delay-ms)))

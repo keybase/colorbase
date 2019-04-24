@@ -2,7 +2,7 @@
   (:require [colorbase.db :refer [cmd]]
             [colorbase.util :as util]
             [colorbase.secrets :refer [secrets]]
-            [org.keybase.proofs :as keybase-proofs]
+            [io.keybase.proofs :as keybase-proofs]
             [clojure.set :refer [rename-keys]]
             [buddy.sign.jwt :as jwt]
             [buddy.hashers :as hashers]
@@ -42,34 +42,36 @@
 
 (defn get-user-with-keybase-proofs [username]
   (assoc (get-user username)
-         :keybase-proofs ((:get-keybase-proofs cmd) {:username username})))
+         :keybase-proofs ((:get-live-keybase-proofs cmd) {:username username})))
 
 (defn get-keybase-proofs-for-keybase [username]
-  (let [proofs (:keybase-proofs (get-user-with-keybase-proofs username))
+  (let [proofs ((:get-all-keybase-proofs cmd) {:username username})
         rename-map {:keybase-username :kb_username, :sig-hash :sig_hash}]
-    (map #(clojure.set/rename-keys % rename-map) proofs)))
+    (println "API proofs requested")
+    (println proofs)
+    {:signatures (map #(clojure.set/rename-keys % rename-map) proofs)
+     :avatar "data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7"}))
 
 (defn get-users-with-live-keybase-proof-count []
   ((:get-users-with-live-keybase-proof-count cmd)))
 
+(defn attempt-to-enliven-proof [domain username keybase-username sig-hash]
+  (when (keybase-proofs/proof-live? domain username keybase-username sig-hash)
+    ((:enliven-keybase-proof cmd) {:username username :keybase-username keybase-username})))
+
 (defn create-keybase-proof [domain username keybase-username sig-hash]
   ; Check if the proof is valid. If not, error.
-  (when-not (keybase-proofs/valid-proof? domain username keybase-username sig-hash)
+  (when-not (keybase-proofs/proof-valid? domain username keybase-username sig-hash)
     (throw (ex-info "401 Unauthorized. Invalid Keybase proof." {:code 403})))
-  ; Add the proof to your database.
+  ; Add the proof to the database.
   ((:create-keybase-proof cmd) {:username username
                                 :keybase-username keybase-username
                                 :sig-hash sig-hash
                                 :is-live false})
-  ; At this point, requesting /api/keybase-proofs returns this proof, but it
-  ; isn't marked as live yet, and so it isn't shown on users profiles.
-  ; Now, check if the proof is live.
-  (if (keybase-proofs/proof-live? domain username keybase-username sig-hash)
-    ; If it is, mark the proof as live and start showing it on the user's profile pages.
-    ((:enliven-keybase-proof cmd) {:username username
-                                   :keybase-username keybase-username})
-    ; Otherwise, keep it dead and return an error.
-    (throw (ex-info "401 Unauthorized. Keybase proof not live." {:code 401}))))
+  ; Kick off a background task to enliven the proof when it's live on Keybase's side
+  (future (util/execute-until-ok
+            (partial attempt-to-enliven-proof domain username keybase-username sig-hash)
+            some? 10 1000)))
 
 (defn delete-keybase-proof [username keybase-username]
   ((:kill-keybase-proof cmd) {:username username :keybase-username keybase-username}))

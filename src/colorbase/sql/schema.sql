@@ -55,13 +55,20 @@ select username, password_hash
 from users
 where username=:username
 
--- :name get-keybase-proofs :? :*
+-- :name get-live-keybase-proofs :? :*
 select keybase_username, sig_hash
 from keybase_proofs
 inner join users
 using (username)
 where username=:username
 and is_live=1
+
+-- :name get-all-keybase-proofs :? :*
+select keybase_username, sig_hash
+from keybase_proofs
+inner join users
+using (username)
+where username=:username
 
 -- :name get-users-with-live-keybase-proof-count :? :*
 --; also check live
