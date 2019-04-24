@@ -24,6 +24,7 @@
           (middleware/set-auth-cookie (redirect "/" :see-other) token)))
   (GET ["/color/:username", :username util/username-pattern] [username :as request]
        (when (= (:current-username request) username)
+         ; check the liveness of the user's proofs if the user is visiting per own profile
          (api/update-keybase-proofs (:domain-for-keybase config) (:current-username request)))
        (views/render-profile (= (:current-username request) username)
                              (api/get-user-with-keybase-proofs username)))
@@ -40,6 +41,7 @@
   (GET "/create-keybase-proof" [keybase-username sig-hash kb-ua username :as request]
        (if (= username (:current-username request))
          (views/render-create-keybase-proof (:current-username request) keybase-username sig-hash kb-ua)
+         ; throw an error if trying to create a proof for a user who is not logged in
          (throw (ex-info (format "401 Unauthorized. Signed in as %s, but tried to make a Keybase proof for %s"
                                  (:current-username request) username) {:code 401}))))
   (GET "/color" request (redirect (str "/color/" (:current-username request)) :see-other))
